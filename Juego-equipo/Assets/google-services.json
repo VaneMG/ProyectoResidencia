@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "982575109964",
+    "project_id": "concentrain-90288",
+    "storage_bucket": "concentrain-90288.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:982575109964:android:07160a77e1b22249fd21e9",
+        "android_client_info": {
+          "package_name": "com.residencia.juegoequipoAd"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdOHHnJ-h2mxyQMEcHmpcV2EYre6QVdCk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

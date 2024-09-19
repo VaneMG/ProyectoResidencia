@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: de35d6fa5a3d15b41a7200aa4b7cd211
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - loginPanel: {instanceID: 0}
+  - signupPanel: {instanceID: 0}
+  - profilePanel: {instanceID: 0}
+  - loginEmail: {instanceID: 0}
+  - loginPassword: {instanceID: 0}
+  - signupEmail: {instanceID: 0}
+  - signupPassword: {instanceID: 0}
+  - signupCPassword: {instanceID: 0}
+  - signupUserName: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
