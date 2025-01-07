@@ -6,6 +6,51 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Belevich/2D Casual Game UI HD/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/FirebaseAuth.unity
+    guid: 32c52aa3149f58c4f84f5c3277641e64
+  - enabled: 1
+    path: Assets/Scenes/MenuPrincipal 1.unity
+    guid: a3b4c204fd0c19d41b49e51ac5e022f2
+  - enabled: 1
+    path: Assets/Scenes/Submenu.unity
+    guid: 841031421f393ab47be5c06954a6e438
+  - enabled: 1
+    path: Assets/Scenes/Juego.unity
+    guid: b36db134d5e351a40baedf23bc0ab736
+  - enabled: 1
+    path: Assets/Scenes/PerfilUsuario.unity
+    guid: 4a28b1b1dd6b790459f6c4fa95005ab5
+  - enabled: 1
+    path: Assets/Scenes/Test.unity
+    guid: df5ec449ee82ad545b677eb6190f0628
+  - enabled: 1
+    path: "Assets/Scenes/TestInformaci\xF3n.unity"
+    guid: f4a6c41b74aebc849af04c3acb2079bb
+  - enabled: 1
+    path: Assets/Scenes/Nivel 2.unity
+    guid: ba75b7e6882070a45b466d556959b188
+  - enabled: 1
+    path: Assets/Scenes/Nivel 3.unity
+    guid: 5a3de585d9c40c5478fcf60b4f34ad5f
+  - enabled: 1
+    path: Assets/Scenes/Nivel 4.unity
+    guid: 11f5eb0a984c3f2468405cf4da6ab49b
+  - enabled: 1
+    path: Assets/Scenes/Nivel 5.unity
+    guid: a4ff9803e8da06f41949972cbb737a3d
+  - enabled: 1
+    path: Assets/Scenes/Nivel 6.unity
+    guid: fef9099544fd7d94db5198e54c9607b3
+  - enabled: 1
+    path: Assets/Scenes/Nivel 7.unity
+    guid: f5545c000554a184595970f1d796dccd
+  - enabled: 1
+    path: Assets/Scenes/Avatar.unity
+    guid: c41761f26a65fd8438a022adae395b35
+  - enabled: 1
+    path: Assets/Scenes/SeleccionPersonaje.unity
+    guid: 2a181df3694cc32438f9895451c769d1
   m_configObjects: {}

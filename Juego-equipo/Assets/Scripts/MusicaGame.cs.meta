@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 946744359aed3714991eb2f645d073a5
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - audioSource: {instanceID: 0}
+  - mainMenuMusic: {fileID: 8300000, guid: 452b2561db8fe50408656a0929b63144, type: 3}
+  - playSceneMusic: {fileID: 8300000, guid: 5ca2efacd48d93243891c84a52fe5a7e, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -8,17 +8,18 @@ using Firebase.Auth;
 using System;
 using System.Threading.Tasks;
 using Firebase.Extensions;
+using UnityEngine.SceneManagement; // Libreria para el cambio de escena
 
 public class FirebaseController : MonoBehaviour
 {
     // Paneles de la UI
-    public GameObject loginPanel, signupPanel, profilePanel, forgetPasswordPanel, notificationPanel;
+    public GameObject loginPanel, signupPanel, forgetPasswordPanel, notificationPanel;
 
     // Cambia InputField a TMP_InputField
     public TMP_InputField loginEmail, loginPassword, signupEmail, signupPassword, signupCPassword, signupUserName, forgetPassEmail;
 
     // Cambia Text a TMP_Text
-    public TMP_Text notif_Title_Text, notif_Message_Text, profileUserName_Text, profileEmail_Text;
+    public TMP_Text notif_Title_Text, notif_Message_Text;
 
     // Toggle de "Recordarme"
     public Toggle rememberMe;
@@ -26,7 +27,13 @@ public class FirebaseController : MonoBehaviour
     Firebase.Auth.FirebaseAuth auth;
     Firebase.Auth.FirebaseUser user;
 
-    bool isSignIn=false;
+    bool isSignIn = false;
+
+    // Cambio de escena
+    /* public void cambiarEscena(int numeroescena)
+    {
+        SceneManager.LoadScene(numeroescena);
+    } */
 
     private void Start()
     {
@@ -54,7 +61,6 @@ public class FirebaseController : MonoBehaviour
     {
         loginPanel.SetActive(true);
         signupPanel.SetActive(false);
-        profilePanel.SetActive(false);
         forgetPasswordPanel.SetActive(false);
     }
 
@@ -63,16 +69,6 @@ public class FirebaseController : MonoBehaviour
     {
         loginPanel.SetActive(false);
         signupPanel.SetActive(true);
-        profilePanel.SetActive(false);
-        forgetPasswordPanel.SetActive(false);
-    }
-
-    // Abrir el panel del perfil
-    public void OpenProfilePanel()
-    {
-        loginPanel.SetActive(false);
-        signupPanel.SetActive(false);
-        profilePanel.SetActive(true);
         forgetPasswordPanel.SetActive(false);
     }
 
@@ -81,7 +77,6 @@ public class FirebaseController : MonoBehaviour
     {
         loginPanel.SetActive(false);
         signupPanel.SetActive(false);
-        profilePanel.SetActive(false);
         forgetPasswordPanel.SetActive(true);
     }
 
@@ -144,8 +139,6 @@ public class FirebaseController : MonoBehaviour
     public void LogOut()
     {
         auth.SignOut();
-        profileUserName_Text.text = "";
-        profileEmail_Text.text = "";
         OpenLoginPanel();
 
         // Aquí puedes agregar la lógica para cerrar la sesión en Firebase
@@ -170,20 +163,17 @@ public class FirebaseController : MonoBehaviour
                     if (firebaseEx != null)
                     {
                         var errorCode = (AuthError)firebaseEx.ErrorCode;
-                        ShowNotificationMessage("error", GetErrorMessage(errorCode));
+                        ShowNotificationMessage("Error", GetErrorMessage(errorCode));
                     }
-
                 }
-
                 return;
             }
 
-            // Firebase user has been created.
             Firebase.Auth.AuthResult result = task.Result;
-            Debug.LogFormat("Firebase user created successfully: {0} ({1})",
-                result.User.DisplayName, result.User.UserId);
-
             UpdateUserProfile(Username);
+
+            Debug.Log("Cambiando a la escena de Test");
+            SceneManager.LoadScene("TestInformación");
         });
     }
 
@@ -206,21 +196,19 @@ public class FirebaseController : MonoBehaviour
                     if (firebaseEx != null)
                     {
                         var errorCode = (AuthError)firebaseEx.ErrorCode;
-                        ShowNotificationMessage("error", GetErrorMessage(errorCode));
+                        ShowNotificationMessage("Error", GetErrorMessage(errorCode));
                     }
-
                 }
-
                 return;
             }
 
             Firebase.Auth.AuthResult result = task.Result;
-            Debug.LogFormat("User signed in successfully: {0} ({1})",
-                result.User.DisplayName, result.User.UserId);
+            // Acciones adicionales después de iniciar sesión, como cambiar de escena
+            ShowNotificationMessage("Alert", "Account Succesfully Created");
 
-            profileUserName_Text.text = "" + user.DisplayName;
-            profileEmail_Text.text = "" + user.Email;
-            OpenProfilePanel();
+            // Cambiar a la escena de Menú principal (índice o nombre de la escena)
+            SceneManager.LoadScene("MenuPrincipal 1");
+
         });
     }
 
@@ -262,49 +250,43 @@ public class FirebaseController : MonoBehaviour
 
 
     void UpdateUserProfile(string UserName)
+{
+    Debug.Log("Iniciando UpdateUserProfile");
+    Firebase.Auth.FirebaseUser user = auth.CurrentUser;
+    
+    if (user != null)
     {
-        Firebase.Auth.FirebaseUser user = auth.CurrentUser;
-        if (user != null)
+        Debug.Log("Actualizando el perfil del usuario: " + user.UserId);
+        Firebase.Auth.UserProfile profile = new Firebase.Auth.UserProfile
         {
-            Firebase.Auth.UserProfile profile = new Firebase.Auth.UserProfile
+            DisplayName = UserName,
+            PhotoUrl = new System.Uri("https://placehold.co/150"),
+        };
+        user.UpdateUserProfileAsync(profile).ContinueWith(task => {
+            if (task.IsCanceled)
             {
-                DisplayName = UserName,
-                PhotoUrl = new System.Uri("https://placehold.co/150"),
-            };
-            user.UpdateUserProfileAsync(profile).ContinueWith(task => {
-                if (task.IsCanceled)
-                {
-                    Debug.LogError("UpdateUserProfileAsync was canceled.");
-                    return;
-                }
-                if (task.IsFaulted)
-                {
-                    Debug.LogError("UpdateUserProfileAsync encountered an error: " + task.Exception);
-                    return;
-                }
-
-                Debug.Log("User profile updated successfully.");
-
-                ShowNotificationMessage("Alert", "Account Succesfully Created");
-            });
-        }
-    }
-
-    bool isSigned=false;
-    void Update()
-    {
-        if (isSignIn)
-        {
-            if (!isSigned)
-            {
-                isSigned = true;
-
-                profileUserName_Text.text = "" + user.DisplayName;
-                profileEmail_Text.text = "" + user.Email;
-                OpenProfilePanel();
+                Debug.LogError("UpdateUserProfileAsync was canceled.");
+                return;
             }
-        }
+            if (task.IsFaulted)
+            {
+                Debug.LogError("UpdateUserProfileAsync encountered an error: " + task.Exception);
+                return;
+            }
+
+            Debug.Log("User profile updated successfully.");
+            ShowNotificationMessage("Alert", "Account Successfully Created");
+
+            
+        });
     }
+    else
+    {
+        Debug.LogError("No se puede actualizar el perfil: el usuario no está autenticado.");
+    }
+}
+
+
 
     private static string GetErrorMessage(AuthError errorCode)
     {

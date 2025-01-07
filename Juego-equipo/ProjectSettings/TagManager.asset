@@ -3,17 +3,22 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - obstaculo
+  - Bandera
+  - Money
+  - Vida
+  - Tiempo
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Jugador
+  - Bandera
+  - Enemys
   - 
   - 
   - 
@@ -40,4 +45,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Enemys
+    uniqueID: 4157895575
+    locked: 0
+  - name: Ground
+    uniqueID: 3072254805
     locked: 0
