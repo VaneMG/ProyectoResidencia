@@ -2,13 +2,17 @@ workflows:
   unity-ios:
     name: Unity iOS Build
     environment:
-      unity:
-        version:2021.3.45f1
       xcode: latest
     scripts:
+      - name: Install Unity version
+        script: |
+          # Instalar Unity 2021.3.45f1 desde Unity Hub
+          wget https://public-cdn.cloud.unity3d.com/hub/prod/UnityHub.AppImage -O UnityHub.AppImage
+          chmod +x UnityHub.AppImage
+          ./UnityHub.AppImage -- --headless install --version 2021.3.45f1
       - name: Build Unity project
         script: |
-          # Compilar proyecto Unity y exportar a iOS
+          # Construir proyecto usando la versión de Unity instalada
           /Applications/Unity/Hub/Editor/2021.3.45f1/Unity.app/Contents/MacOS/Unity \
             -batchmode \
             -projectPath $CM_BUILD_DIR \
@@ -16,16 +20,10 @@ workflows:
             -quit
       - name: Install CocoaPods
         script: |
-          # Instalar dependencias de CocoaPods
           cd build/ios
           pod install
-      - name: Copy GoogleService-Info.plist
-        script: |
-          # Asegurarse de que GoogleService-Info.plist esté en el directorio correcto
-          cp $CM_BUILD_DIR/path/to/GoogleService-Info.plist build/ios/
       - name: Build and Sign iOS app
         script: |
-          # Compilar y firmar el proyecto iOS exportado por Unity
           xcodebuild -workspace build/ios/Unity-iPhone.xcworkspace \
                      -scheme Unity-iPhone \
                      -sdk iphoneos \
@@ -37,7 +35,5 @@ workflows:
                      -exportPath $CM_BUILD_DIR/build/ios \
                      -exportOptionsPlist build/ios/exportOptions.plist
     artifacts:
-      # Archivos generados que estarán disponibles después del build
-      - build/ios/Unity.xcarchive
       - build/ios/*.ipa
 
