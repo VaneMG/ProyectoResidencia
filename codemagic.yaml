@@ -2,28 +2,26 @@ workflows:
   unity-ios:
     name: Unity iOS Build
     environment:
+      unity:
+        version:2021.3.29f1 
       xcode: latest
     scripts:
-      - name: Install Unity version
-        script: |
-          # Instalar Unity 2021.3.45f1 desde Unity Hub
-          wget https://public-cdn.cloud.unity3d.com/hub/prod/UnityHub.AppImage -O UnityHub.AppImage
-          chmod +x UnityHub.AppImage
-          ./UnityHub.AppImage -- --headless install --version 2021.3.45f1
       - name: Build Unity project
         script: |
-          # Construir proyecto usando la versión de Unity instalada
-          /Applications/Unity/Hub/Editor/2021.3.45f1/Unity.app/Contents/MacOS/Unity \
+          # Construir el proyecto usando Unity instalado en el entorno de Codemagic
+          /Applications/Unity/Hub/Editor/2021.3.29f1/Unity.app/Contents/MacOS/Unity \
             -batchmode \
             -projectPath $CM_BUILD_DIR \
             -executeMethod BuildScript.BuildiOS \
             -quit
       - name: Install CocoaPods
         script: |
+          # Instalar dependencias de iOS con CocoaPods
           cd build/ios
           pod install
       - name: Build and Sign iOS app
         script: |
+          # Construir y firmar la aplicación iOS con Xcode
           xcodebuild -workspace build/ios/Unity-iPhone.xcworkspace \
                      -scheme Unity-iPhone \
                      -sdk iphoneos \
