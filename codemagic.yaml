@@ -1,1 +1,19 @@
-"contenido del archivo" 
+workflows:
+  unity-ios:
+    name: Unity iOS Build
+    environment:
+      unity:
+        version:2021.3.45f1
+      xcode: latest
+    scripts:
+      - name: Build Unity project
+        script: |
+          #!/bin/bash
+          /Applications/Unity/Hub/Editor/2021.3.45f1/Unity.app/Contents/MacOS/Unity \
+            -batchmode \
+            -projectPath $CM_BUILD_DIR \
+            -executeMethod BuildScript.BuildiOS \
+            -quit
+    artifacts:
+      - build/ios
+
