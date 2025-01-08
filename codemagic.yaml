@@ -8,12 +8,36 @@ workflows:
     scripts:
       - name: Build Unity project
         script: |
-          #!/bin/bash
+          # Compilar proyecto Unity y exportar a iOS
           /Applications/Unity/Hub/Editor/2021.3.45f1/Unity.app/Contents/MacOS/Unity \
             -batchmode \
             -projectPath $CM_BUILD_DIR \
             -executeMethod BuildScript.BuildiOS \
             -quit
+      - name: Install CocoaPods
+        script: |
+          # Instalar dependencias de CocoaPods
+          cd build/ios
+          pod install
+      - name: Copy GoogleService-Info.plist
+        script: |
+          # Asegurarse de que GoogleService-Info.plist esté en el directorio correcto
+          cp $CM_BUILD_DIR/path/to/GoogleService-Info.plist build/ios/
+      - name: Build and Sign iOS app
+        script: |
+          # Compilar y firmar el proyecto iOS exportado por Unity
+          xcodebuild -workspace build/ios/Unity-iPhone.xcworkspace \
+                     -scheme Unity-iPhone \
+                     -sdk iphoneos \
+                     -configuration Release \
+                     -archivePath $CM_BUILD_DIR/build/ios/Unity.xcarchive archive
+
+          xcodebuild -exportArchive \
+                     -archivePath $CM_BUILD_DIR/build/ios/Unity.xcarchive \
+                     -exportPath $CM_BUILD_DIR/build/ios \
+                     -exportOptionsPlist build/ios/exportOptions.plist
     artifacts:
-      - build/ios
+      # Archivos generados que estarán disponibles después del build
+      - build/ios/Unity.xcarchive
+      - build/ios/*.ipa
 
